@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+# Notice how everything is centered in the screen, and every new element is drawn right below the previous one
+
 # st.write is used to write to our app
 st.write("Vamos a crear nueva data:")
 
@@ -44,4 +46,33 @@ if st.checkbox("Demuestrame la tabla"):
        np.random.randn(20, 3),
        columns=['a', 'b', 'c'])
     
-    chart_data
+    st.dataframe(chart_data)
+
+# "Selectbox" is used to select from a series
+a = pd.Series([1,2,3])
+
+option = st.selectbox("Which number is larger", a)
+"You selected: ", option 
+
+# We can separate the structure of the page layout by adding a sidebar
+selectbox_output = st.sidebar.selectbox(
+    "Que personaje de One Piece te gusta mas?",
+    ("Luffy", "Zoro", "Shanks")
+)
+
+slider_output = st.sidebar.slider(
+    "Selecciona tu rango de bmi",
+    0.0, 70.0, (25.0, 50.0) #All values must be of the same type (e.g. all floats)
+)
+
+# We can also structure it by columns - Theoretically we can place this at the top to break the whole page by two (+ sidebar)
+lc, rc = st.columns(2)
+
+lc.button("Presioname!!")
+
+with rc:
+    selected_ratio = st.radio(
+        "Ganador de la Liga 1 2024",
+        ("Universitario", "Alianza Lima", "Sporting Cristal", "Los Chankas")
+    )
+    st.write("You selected", selected_ratio)

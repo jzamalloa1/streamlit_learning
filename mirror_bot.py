@@ -14,30 +14,40 @@ st.title("El Bryan Plagiador")
 # Initialize chat history in the session state (since at first this won't exist)
 if "messages" not in st.session_state:
     st.session_state.messages = [] # Initialize them, so that if it does exist, it doesn't overwrite it (since we want to add more to this list later on)
+    # st.session_state.counter = 0 # To prove that everything is being reloaded (point below)
 
 # Display chat messages when app is rerun (click, new entry, etc) from history
 # We have "role" and "content" keys per messages (dict) since this is the way we'll store them as in {"role":"user/ai", "content":"...."}
     # Contingent on the role, we'll write to that container (assistant container and user container)
 for m in st.session_state.messages:
     with st.chat_message(m["role"]):
+        # st.session_state.counter += 1 # To test reloading theory
+        # st.markdown(st.session_state.counter)
         st.markdown(m["content"])
+
 # It is not that they are rendered one after the other, it is that they are rendered all at once, but it seems like one after the other
     # because it is refreshing on each entry and displaying the whole thing + 1 element
 
 # Now let's allow user entering messages through chat input
 # Create prompt for user
 prompt = st.chat_input("Que pasion?")
-# If entered, then we'll display it in container
+# The above code (entering of chat_input) will cause the app to be reran. On the first iteration there
+# will be no message to display from line 22, so there won't be any "previous" messages to render. It will only render
+# anything present in "messages" within the session_state, which happens on the secon iteration (containg only the message)
+# from the first iteration
+
 if prompt:
     with st.chat_message("user"):
-        st.markdown(prompt)
-    # And append it to the message history list object
+        st.markdown("#"+prompt)
+    # This will be displayed after the message rendering loop portion is ran. On the second iteration it will appear
+    # rendered after the first message (which comes from the session_state messages loop)
+        
+    # Append it to the message history list object
     st.session_state.messages.append({"role":"user", "content":prompt})
-    # The above code (entering of chat_input) will cause the app to be reran, and therefore the message rendering loop portion to be ran again
 
     # Now add the "bot's message" as well to be added (and therefore rendered) continuously to the user's message
     bot_response = f"Echo: {prompt}"
     
     with st.chat_message("assistant"):
-        st.markdown(bot_response)
-    st.session_state.messages.append({"role":"assistant", "content":prompt})
+        st.markdown("#"+ bot_response)
+    st.session_state.messages.append({"role":"assistant", "content":bot_response})

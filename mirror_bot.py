@@ -20,6 +20,8 @@ if "messages" not in st.session_state:
 # We have "role" and "content" keys per messages (dict) since this is the way we'll store them as in {"role":"user/ai", "content":"...."}
     # Contingent on the role, we'll write to that container (assistant container and user container)
 for m in st.session_state.messages:
+
+    # Each role will have its own chat_message() container
     with st.chat_message(m["role"]):
         # st.session_state.counter += 1 # To test reloading theory
         # st.markdown(st.session_state.counter)

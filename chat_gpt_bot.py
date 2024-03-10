@@ -58,7 +58,7 @@ if openai_api_key.startswith("sk-"):
             #   and in streaming mode
             # Langchain streaming docs: https://python.langchain.com/docs/modules/model_io/chat/streaming
             ai_response = llm.stream(st.session_state.ai_messages)
-
+            print(ai_response)
             # Render streaming response to AI's container AND store in object to be able to add it to chat history and AI's chat history
             ai_response_content = st.write_stream(ai_response)
 
